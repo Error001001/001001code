@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+int stack[100], top = -1;
+
+void push() {
+  int x;
+  printf("Enter a number: ");
+  scanf("%d", &x);
+
+  if (top == 99) {
+    printf("Stack overflow!\n");
+    return;
+  }
+
+  top++;
+  stack[top] = x;
+}
+
+int pop() {
+  if (top == -1) {
+    printf("Stack underflow!\n");
+    return -1;
+  }
+
+  int x = stack[top];
+  top--;
+  return x;
+}
+
+int main() {
+  int n, x;
+
+  printf("How many numbers do you want to push? ");
+  scanf("%d", &n);
+
+  for (int i = 0; i < n; i++) {
+    push();
+  }
+
+  printf("The numbers in the stack are: ");
+  for (int i = top; i >= 0; i--) {
+    printf("%d ", stack[i]);
+  }
+
+  printf("\n");
+
+  printf("Popping the numbers from the stack: ");
+  while (top != -1) {
+    x = pop();
+    printf("%d ", x);
+  }
+
+  printf("\n");
+
+  return 0;
+}
