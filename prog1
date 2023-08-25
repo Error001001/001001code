@@ -78,3 +78,48 @@ int main() {
     return 0;
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#include <stdio.h>
+
+// Function to increment a k-bit binary counter
+void incrementCounter(int counter[], int k) {
+    int carry = 1;
+    for (int i = 0; i < k; i++) {
+        counter[i] += carry;
+        carry = counter[i] / 2;
+        counter[i] %= 2;
+    }
+}
+
+// Function to print the counter's current value
+void printCounter(int counter[], int k) {
+    for (int i = k - 1; i >= 0; i--) {
+        printf("%d", counter[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int k, n;
+
+    printf("Enter the number of bits for the counter: ");
+    scanf("%d", &k);
+
+    int counter[k];
+    for (int i = 0; i < k; i++) {
+        counter[i] = 0;
+    }
+
+    printf("Enter the number of increment operations: ");
+    scanf("%d", &n);
+
+    printf("Initial counter value: ");
+    printCounter(counter, k);
+
+    for (int i = 0; i < n; i++) {
+        incrementCounter(counter, k);
+        printf("After increment %d: ", i + 1);
+        printCounter(counter, k);
+    }
+
+    return 0;
+}
