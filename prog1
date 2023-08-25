@@ -1,56 +1,80 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int stack[100], top = -1;
+#define MAX_SIZE 100
 
-void push() {
-  int x;
-  printf("Enter a number: ");
-  scanf("%d", &x);
+typedef struct {
+    int array[MAX_SIZE];
+    int top;
+} Stack;
 
-  if (top == 99) {
-    printf("Stack overflow!\n");
-    return;
-  }
-
-  top++;
-  stack[top] = x;
+void initialize(Stack *s) {
+    s->top = -1;
 }
 
-int pop() {
-  if (top == -1) {
-    printf("Stack underflow!\n");
-    return -1;
-  }
+int isEmpty(Stack *s) {
+    return s->top == -1;
+}
 
-  int x = stack[top];
-  top--;
-  return x;
+int isFull(Stack *s) {
+    return s->top == MAX_SIZE - 1;
+}
+
+void push(Stack *s, int x) {
+    if (isFull(s)) {
+        printf("Stack overflow\n");
+        return;
+    }
+    s->array[++s->top] = x;
+}
+
+int pop(Stack *s) {
+    if (isEmpty(s)) {
+        printf("Stack underflow\n");
+        return -1;
+    }
+    return s->array[s->top--];
+}
+
+void multipop(Stack *s, int K) {
+    while (K > 0 && !isEmpty(s)) {
+        pop(s);
+        K--;
+    }
 }
 
 int main() {
-  int n, x;
+    Stack s;
+    initialize(&s);
 
-  printf("How many numbers do you want to push? ");
-  scanf("%d", &n);
+    int n, operation, x, K;
+    printf("Enter the number of operations: ");
+    scanf("%d", &n);
 
-  for (int i = 0; i < n; i++) {
-    push();
-  }
+    for (int i = 0; i < n; i++) {
+        printf("Enter operation (1 for push, 2 for pop, 3 for multipop): ");
+        scanf("%d", &operation);
 
-  printf("The numbers in the stack are: ");
-  for (int i = top; i >= 0; i--) {
-    printf("%d ", stack[i]);
-  }
+        switch (operation) {
+            case 1:
+                printf("Enter value to push: ");
+                scanf("%d", &x);
+                push(&s, x);
+                break;
+            case 2:
+                if (!isEmpty(&s))
+                    printf("Popped value: %d\n", pop(&s));
+                break;
+            case 3:
+                printf("Enter value of K for multipop: ");
+                scanf("%d", &K);
+                multipop(&s, K);
+                break;
+            default:
+                printf("Invalid operation\n");
+        }
+    }
 
-  printf("\n");
-
-  printf("Popping the numbers from the stack: ");
-  while (top != -1) {
-    x = pop();
-    printf("%d ", x);
-  }
-
-  printf("\n");
-
-  return 0;
+    return 0;
 }
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
